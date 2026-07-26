@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SafeShare Dashboard — Manage your files, share links, and track downloads.">
+    <title>Dashboard — SafeShare</title>
+    <link rel="icon" href="/images/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/mobile.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/dashboard.html" class="navbar-brand">
+            <img src="/images/icon.png" alt="SafeShare">
+        </a>
+        <div class="navbar-actions">
+            <div class="navbar-user">
+                <span class="user-avatar" id="userAvatar">U</span>
+                <span id="userName">User</span>
+            </div>
+            <button class="btn btn-ghost btn-sm" id="logoutBtn">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container dashboard-content">
+        <!-- Header -->
+        <div class="dashboard-header">
+            <h1>My Files</h1>
+        </div>
+
+        <!-- Stats -->
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <div class="stat-value" id="statFiles">0</div>
+                <div class="stat-label">Total Files</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statLinks">0</div>
+                <div class="stat-label">Share Links</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statDownloads">0</div>
+                <div class="stat-label">Downloads</div>
+            </div>
+        </div>
+
+        <!-- Upload Area -->
+        <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">📁</div>
+            <h3>Drop file here or click to upload</h3>
+            <p>PDF, JPG, PNG, DOCX, XLS, XLSX, ZIP — Max 25 MB</p>
+            <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png,.docx,.xls,.xlsx,.zip" style="display:none">
+            <div class="upload-progress" id="uploadProgress">
+                <div class="progress-bar">
+                    <div class="progress-bar-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">Uploading... 0%</div>
+            </div>
+        </div>
+
+        <!-- Toolbar: Search -->
+        <div class="toolbar">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Search files by name...">
+            </div>
+        </div>
+
+        <!-- File Table -->
+        <div class="file-table-wrapper">
+            <table class="file-table">
+                <thead>
+                    <tr>
+                        <th>File</th>
+                        <th>Version</th>
+                        <th>Links</th>
+                        <th>Downloads</th>
+                        <th>Uploaded</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="fileTableBody">
+                    <!-- Populated by dashboard.js -->
+                </tbody>
+            </table>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState">
+                <div class="empty-icon">📂</div>
+                <h3>No files yet</h3>
+                <p>Upload your first file to get started with secure sharing.</p>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination"></div>
+    </main>
+
+    <!-- Share Link Creation Modal -->
+    <div class="modal-overlay" id="shareModal">
+        <div class="modal modal-wide">
+            <div class="modal-header">
+                <h2>Create Share Link</h2>
+                <button class="modal-close" type="button" aria-label="Close">&times;</button>
+            </div>
+            <div class="card-body">
+                <form id="shareLinkForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shareExpiry">Expiry Date & Time</label>
+                            <input type="datetime-local" class="form-control" id="shareExpiry">
+                        </div>
+                        <div class="form-group">
+                            <label for="shareMaxDownloads">Max Downloads</label>
+                            <input type="number" class="form-control" id="shareMaxDownloads" min="1" placeholder="e.g. 10">
+                        </div>
+                    </div>
+                    <div class="form-group" id="shareWatermarkGroup">
+                        <label for="sharePassword">Password (optional)</label>
+                        <input type="password" class="form-control" id="sharePassword" placeholder="Leave empty for no password">
+                    </div>
+                    <div class="form-group">
+                        <div class="toggle-wrapper">
+                            <input type="checkbox" class="toggle" id="shareWatermark">
+                            <label for="shareWatermark" style="margin-bottom:0;cursor:pointer">Enable PDF watermark</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg" style="width:100%;margin-top:8px">Generate Link</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Version History Modal -->
+    <div class="modal-overlay" id="versionModal">
+        <div class="modal modal-wide">
+            <div class="modal-header">
+                <h2>Version History</h2>
+                <button class="modal-close" type="button" aria-label="Close">&times;</button>
+            </div>
+            <div class="card-body">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Links List Modal -->
+    <div class="modal-overlay" id="linksModal">
+        <div class="modal modal-wide">
+            <div class="modal-header">
+                <h2>Share Links</h2>
+                <button class="modal-close" type="button" aria-label="Close">&times;</button>
+            </div>
+            <div class="card-body">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Code Modal -->
+    <div class="modal-overlay" id="qrModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>QR Code</h2>
+                <button class="modal-close" type="button" aria-label="Close">&times;</button>
+            </div>
+            <div class="card-body">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Access Logs Modal -->
+    <div class="modal-overlay" id="logsModal">
+        <div class="modal modal-wide">
+            <div class="modal-header">
+                <h2>Access Logs</h2>
+                <button class="modal-close" type="button" aria-label="Close">&times;</button>
+            </div>
+            <div class="card-body">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/upload.js"></script>
+    <script src="/js/sharelink.js"></script>
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>

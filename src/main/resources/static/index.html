@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SafeShare — Securely share files with password protection, expiry controls, and download tracking.">
+    <title>SafeShare — Secure File Sharing</title>
+    <link rel="icon" href="/images/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/mobile.css">
+</head>
+<body>
+    <!-- Landing Page -->
+    <div class="landing-page">
+        <header class="landing-nav">
+            <a href="/index.html" class="landing-brand">
+                <img src="/images/icon.png" alt="SafeShare">
+            </a>
+        </header>
+
+        <main class="landing-shell">
+            <section class="landing-hero">
+                <div class="landing-copy">
+                    <div class="landing-pill">Secure. Private. Reliable.</div>
+                    <h1>Share Files Safely. <span>Always.</span></h1>
+                    <p class="landing-tagline">SafeShare lets you share files securely with password protection, expiry controls, and real-time tracking. Your data stays private, always.</p>
+
+                    <div class="landing-buttons">
+                        <button class="btn btn-primary btn-lg" id="registerHeroBtn">Register</button>
+                        <button class="btn btn-primary btn-lg" id="loginBtn">Login</button>
+                    </div>
+                    <div class="landing-button-notes">
+                        <span>Create your account</span>
+                        <span>Access your account</span>
+                    </div>
+
+                    <div class="landing-divider"><span>or continue with</span></div>
+                    <button class="btn-google landing-google" id="googleLoginBtn">
+                        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                        Continue with Google
+                    </button>
+                </div>
+
+                <div class="landing-visual" aria-hidden="true">
+                    <div class="hero-card hero-card-password">
+                        <strong>Password Protection</strong>
+                        <span>••••••</span>
+                    </div>
+                    <div class="hero-card hero-card-expiry">
+                        <strong>Expiry Control</strong>
+                        <span>7 days</span>
+                    </div>
+                    <div class="hero-card hero-card-tracking">
+                        <strong>Real-time Tracking</strong>
+                        <span class="mini-chart"></span>
+                    </div>
+                    <div class="hero-card hero-card-sharing">
+                        <strong>Secure Sharing</strong>
+                        <span>Verified links</span>
+                    </div>
+                    <div class="hero-emblem">
+                        <img src="/images/favicon.png" alt="">
+                    </div>
+                </div>
+            </section>
+
+            <section class="landing-features" aria-label="SafeShare features">
+                <div class="landing-feature">
+                    <span>Shield</span>
+                    <strong>End-to-End Security</strong>
+                    <p>Your files are protected with strict access controls.</p>
+                </div>
+                <div class="landing-feature">
+                    <span>Lock</span>
+                    <strong>Password & Expiry</strong>
+                    <p>Add passwords and set expiry for every link.</p>
+                </div>
+                <div class="landing-feature">
+                    <span>View</span>
+                    <strong>Real-time Tracking</strong>
+                    <p>Know who viewed or downloaded your files.</p>
+                </div>
+                <div class="landing-feature">
+                    <span>Cloud</span>
+                    <strong>Cloud Storage</strong>
+                    <p>Your files are stored securely and ready to share.</p>
+                </div>
+            </section>
+
+            <section class="landing-stats" aria-label="SafeShare trust stats">
+                <div class="landing-stat-intro">SafeShare is built to keep your important files safe and your sharing experience effortless.</div>
+                <div><strong>10K+</strong><span>Happy Users</span></div>
+                <div><strong>50K+</strong><span>Files Shared</span></div>
+                <div><strong>200K+</strong><span>Downloads</span></div>
+                <div><strong>99.9%</strong><span>Uptime & Secure</span></div>
+            </section>
+
+            <p class="landing-privacy">Your privacy is our priority. We never sell your data.</p>
+        </main>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal-overlay" id="registerModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Create Account</h2>
+                <button class="modal-close" type="button" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-alert" id="registerAlert"></div>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="regName">Full Name</label>
+                    <input type="text" class="form-control" id="regName" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email Address</label>
+                    <input type="email" class="form-control" id="regEmail" placeholder="you@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password</label>
+                    <input type="password" class="form-control" id="regPassword" placeholder="Min. 6 characters" minlength="6" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg" style="width:100%;margin-top:8px">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Welcome Back</h2>
+                <button class="modal-close" type="button" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-alert" id="loginAlert"></div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" class="form-control" id="loginEmail" placeholder="you@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" class="form-control" id="loginPassword" placeholder="Enter your password" required>
+                </div>
+                <button type="button" class="btn btn-ghost btn-sm forgot-password-link" id="forgotPasswordBtn">Forgot password?</button>
+                <button type="submit" class="btn btn-primary btn-lg" style="width:100%;margin-top:8px">Login</button>
+            </form>
+            <div class="modal-divider">or</div>
+            <button class="btn-google" id="googleLoginModalBtn">
+                <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                Continue with Google
+            </button>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal-overlay" id="forgotPasswordModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Reset Password</h2>
+                <button class="modal-close" type="button" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-alert" id="forgotPasswordAlert"></div>
+            <form id="forgotPasswordForm">
+                <div class="form-group">
+                    <label for="forgotEmail">Email Address</label>
+                    <input type="email" class="form-control" id="forgotEmail" placeholder="you@example.com" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg" style="width:100%;margin-top:8px">Send Reset Link</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+</body>
+</html>
