@@ -1,0 +1,357 @@
+/* ============================================
+   SafeShare — Mobile Responsive Overrides
+   Contains ONLY media queries — loaded after style.css
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* Navbar */
+    .navbar {
+        padding: 0 16px;
+        height: 56px;
+    }
+
+    .navbar-brand img {
+        height: 30px;
+    }
+
+    .navbar-user span:not(.user-avatar) {
+        display: none;
+    }
+
+    /* Container */
+    .container {
+        padding: 0 16px;
+    }
+
+    /* Landing Page */
+    .landing-nav,
+    .landing-shell {
+        width: min(100% - 32px, 560px);
+    }
+
+    .landing-nav {
+        padding: 16px 0;
+    }
+
+    .landing-brand img {
+        height: 44px;
+    }
+
+    .landing-nav .btn {
+        min-width: auto;
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+
+    .landing-shell {
+        padding-top: 18px;
+    }
+
+    .landing-hero {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        min-height: auto;
+    }
+
+    .landing-copy {
+        max-width: none;
+    }
+
+    .landing-copy h1 {
+        font-size: 48px;
+    }
+
+    .landing-tagline {
+        font-size: 15px;
+    }
+
+    .landing-buttons {
+        flex-direction: row;
+        width: 100%;
+        max-width: none;
+    }
+
+    .landing-buttons .btn {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .landing-button-notes {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .landing-divider {
+        width: 100%;
+    }
+
+    .landing-google {
+        width: 100%;
+    }
+
+    .landing-visual {
+        min-height: 420px;
+    }
+
+    .hero-card {
+        min-width: 134px;
+        padding: 12px 14px;
+    }
+
+    .hero-card-password,
+    .hero-card-tracking {
+        left: 0;
+    }
+
+    .hero-card-expiry,
+    .hero-card-sharing {
+        right: 0;
+    }
+
+    .landing-features,
+    .landing-stats {
+        grid-template-columns: 1fr;
+        padding: 18px;
+    }
+
+    .landing-feature,
+    .landing-stats > div {
+        border-right: 0;
+        border-bottom: 1px solid #e2e8f0;
+        padding: 16px 0;
+    }
+
+    .landing-feature:last-child,
+    .landing-stats > div:last-child {
+        border-bottom: 0;
+    }
+
+    .landing-stats > div {
+        border-bottom-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .landing-stat-intro {
+        text-align: center;
+    }
+
+    /* Modal */
+    .modal {
+        margin: 16px;
+        padding: 24px;
+        border-radius: var(--radius-lg);
+        max-height: 85vh;
+    }
+
+    .modal.modal-wide {
+        max-width: 100%;
+    }
+
+    /* Dashboard */
+    .dashboard-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .dashboard-stats {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .stat-card {
+        flex: auto;
+    }
+
+    /* Toolbar */
+    .toolbar {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    /* File Table */
+    .file-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .file-table {
+        min-width: 700px;
+    }
+
+    .file-table th,
+    .file-table td {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    /* Upload Area */
+    .upload-area {
+        padding: 24px;
+    }
+
+    /* Cards */
+    .card-body {
+        padding: 16px;
+    }
+
+    .card-header {
+        padding: 14px 16px;
+    }
+
+    /* Share Page */
+    .share-container {
+        padding: 20px 16px;
+    }
+
+    .share-card {
+        border-radius: var(--radius-lg);
+    }
+
+    .preview-area iframe {
+        height: 350px;
+    }
+
+    .preview-area.preview-fullscreen iframe {
+        height: calc(100vh - 57px);
+    }
+
+    .image-preview-frame {
+        min-height: 260px;
+    }
+
+    .preview-area.preview-fullscreen .image-preview-frame {
+        height: calc(100vh - 57px);
+    }
+
+    .preview-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    /* Version list */
+    .version-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    /* Link items */
+    .link-item-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .link-item-stats {
+        flex-wrap: wrap;
+    }
+
+    .link-item-actions {
+        flex-wrap: wrap;
+    }
+
+    /* Form row */
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    /* Logs table */
+    .logs-table {
+        font-size: 12px;
+    }
+
+    .logs-table th,
+    .logs-table td {
+        padding: 8px;
+    }
+
+    /* Pagination */
+    .pagination {
+        flex-wrap: wrap;
+    }
+
+    /* Toast */
+    .toast {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+    }
+
+    /* Confirm dialog */
+    .confirm-dialog {
+        margin: 16px;
+    }
+
+    /* File actions */
+    .file-actions {
+        gap: 4px;
+    }
+
+    .file-actions .btn-sm {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 480px) {
+    .landing-copy h1 {
+        font-size: 40px;
+    }
+
+    .landing-buttons {
+        flex-direction: column;
+    }
+
+    .landing-button-notes {
+        display: none;
+    }
+
+    .landing-visual {
+        min-height: 360px;
+    }
+
+    .hero-emblem img {
+        width: min(260px, 62vw);
+    }
+
+    .hero-card {
+        font-size: 12px;
+        min-width: 120px;
+    }
+
+    .hero-card strong {
+        font-size: 11px;
+    }
+
+    .hero-card-sharing,
+    .hero-card-tracking {
+        bottom: 14%;
+    }
+
+    .modal {
+        padding: 20px;
+    }
+
+    .modal-header h2 {
+        font-size: 18px;
+    }
+
+    .share-card-body {
+        padding: 16px;
+    }
+
+    .preview-area iframe {
+        height: 280px;
+    }
+
+    .preview-area.preview-fullscreen iframe {
+        height: calc(100vh - 57px);
+    }
+
+    .image-preview-frame {
+        min-height: 220px;
+    }
+}
