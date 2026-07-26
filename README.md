@@ -1,21 +1,18 @@
 <div align="center">
-<img width="1254" height="1254" alt="image" src="https://github.com/user-attachments/assets/9dd6e7ac-f5b7-4e1c-a4d7-ffd452402254" />
-
-
-" alt="SafeShare Logo" width="350" style="margin-bottom: 20px;">
+  <img src="https://github.com/user-attachments/assets/9dd6e7ac-f5b7-4e1c-a4d7-ffd452402254" alt="SafeShare Logo" width="120" style="margin-bottom: 20px;">
 
   # SafeShare — Secure File Sharing Platform
 
   <p>
-    <strong>A highly secure, robust, and beautiful file-sharing application built with Spring Boot 3 and Vanilla JS.</strong>
+    <strong>A highly secure, robust, and beautiful file-sharing application built with Spring Boot and Vanilla JS.</strong>
   </p>
 
   <p>
-    <img src="https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 17" />
-    <img src="https://img.shields.io/badge/Spring_Boot-3.2-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white" alt="Spring Boot" />
-    <img src="https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
-    <img src="https://img.shields.io/badge/Redis-7.0-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis" />
-    <img src="https://img.shields.io/badge/Docker-Enabled-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
+    <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java" />
+    <img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white" alt="Spring Boot" />
+    <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
+    <img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis" />
+    <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
   </p>
 </div>
 
@@ -37,7 +34,6 @@ Whether you need to share a confidential PDF with a client or send a secure ZIP 
 - 📊 **Real-Time Analytics:** Track exactly when, where (IP address, Browser, Device), and how a file was accessed via the Access Logs dashboard.
 - ⚡ **Atomic Rate Limiting:** Built with Redis and Bucket4j to prevent race conditions during concurrent downloads and to block brute-force password guessing.
 - 🤖 **Bot Detection:** Intelligent User-Agent filtering allows sharing on WhatsApp/Telegram/Slack (to render link previews) without wasting your maximum download limits.
-- 🗂️ **Non-Destructive Versioning:** Upload new versions of the same file seamlessly. Previous versions are kept intact and can be reverted at any time.
 - 📱 **Responsive UI:** A premium, desktop-first and mobile-friendly vanilla HTML/CSS/JS frontend with drag-and-drop uploading and inline file previews.
 
 ---
@@ -45,27 +41,22 @@ Whether you need to share a confidential PDF with a client or send a secure ZIP 
 ## 📸 Screenshots
 
 ### 1. Landing Page & Authentication
-<img src="<img width="1600" height="848" alt="image" src="https://github.com/user-attachments/assets/a4591767-40b3-4988-a2a2-51f15e500779" />
-" width="800" alt="Landing Page" style="border-radius: 8px; margin-bottom: 10px; border: 1px solid #ccc;">
+<img src="https://github.com/user-attachments/assets/a4591767-40b3-4988-a2a2-51f15e500779" width="700" alt="Landing Page" style="border-radius: 8px; margin-bottom: 10px; border: 1px solid #ccc;">
 <br>
-<img src="<img width="1600" height="850" alt="image" src="https://github.com/user-attachments/assets/e37502fe-625c-4c28-8bd6-88d5acfa3e29" />
-" width="800" alt="Authentication" style="border-radius: 8px; border: 1px solid #ccc;">
+<img src="https://github.com/user-attachments/assets/e37502fe-625c-4c28-8bd6-88d5acfa3e29" width="700" alt="Authentication" style="border-radius: 8px; border: 1px solid #ccc;">
 
 ### 2. User Dashboard & File Management
-<img src="<img width="1600" height="855" alt="image" src="https://github.com/user-attachments/assets/7b186dfa-96d4-4ff0-8c5e-ca5f3fcf2a9d" />
-" width="800" alt="Dashboard" style="border-radius: 8px; border: 1px solid #ccc;">
+<img src="https://github.com/user-attachments/assets/7b186dfa-96d4-4ff0-8c5e-ca5f3fcf2a9d" width="700" alt="Dashboard" style="border-radius: 8px; border: 1px solid #ccc;">
 
 ### 3. Share Link Generation Modal
-<img src="<img width="1600" height="845" alt="image" src="https://github.com/user-attachments/assets/a420b7f1-8437-48c0-882a-2c291e2af121" />
-" width="800" alt="Share Modal" style="border-radius: 8px; border: 1px solid #ccc;">
+<img src="https://github.com/user-attachments/assets/a420b7f1-8437-48c0-882a-2c291e2af121" width="700" alt="Share Modal" style="border-radius: 8px; border: 1px solid #ccc;">
 
 ### 4. Public File Access (Password Protected)
-<img src="<img width="1600" height="850" alt="image" src="https://github.com/user-attachments/assets/eb9bae72-d8d5-4377-9ee6-f61a979a76af" />
-" width="800" alt="Public Access Page" style="border-radius: 8px; border: 1px solid #ccc;">
+<img src="https://github.com/user-attachments/assets/eb9bae72-d8d5-4377-9ee6-f61a979a76af" width="700" alt="Public Access Page" style="border-radius: 8px; border: 1px solid #ccc;">
 
 ### 5. Preview Page
-<img src="<img width="1600" height="861" alt="image" src="https://github.com/user-attachments/assets/16dbb1c3-925b-479b-9930-1632f4a59dd4" />
-" width="800" alt="Preview Page" style="border-radius: 8px; border: 1px solid #ccc;">
+<img src="https://github.com/user-attachments/assets/16dbb1c3-925b-479b-9930-1632f4a59dd4" width="700" alt="Preview Page" style="border-radius: 8px; border: 1px solid #ccc;">
+
 ---
 
 ## 🛠️ Technology Stack
