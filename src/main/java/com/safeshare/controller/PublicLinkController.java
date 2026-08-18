@@ -5,6 +5,7 @@ import com.safeshare.entity.AccessStatus;
 import com.safeshare.entity.FileVersion;
 import com.safeshare.entity.ShareLink;
 import com.safeshare.service.*;
+import com.safeshare.util.BotUserAgentFilter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,6 +32,7 @@ public class PublicLinkController {
     private final WatermarkService watermarkService;
     private final DocumentPreviewService documentPreviewService;
     private final AccessLogService accessLogService;
+    private final BotUserAgentFilter botUserAgentFilter;
 
     @GetMapping("/{token}")
     @Operation(summary = "Validate a share link and return its status")
@@ -122,11 +124,14 @@ public class PublicLinkController {
         ShareLink link = downloadService.validateLink(token);
         downloadService.requirePasswordAccess(link, token, request);
 
-        // Atomic increment of download count via Redis
-        downloadService.incrementDownloadCount(token);
+        boolean isBot = botUserAgentFilter.isBot(request.getHeader("User-Agent"));
+        if (!isBot) {
+            // Atomic increment of download count via Redis
+            downloadService.incrementDownloadCount(token);
 
-        // Log the successful access
-        accessLogService.logAccess(link, request, AccessStatus.SUCCESS, "File downloaded");
+            // Log the successful access
+            accessLogService.logAccess(link, request, AccessStatus.SUCCESS, "File downloaded");
+        }
 
         FileVersion latestVersion = fileService.getLatestVersion(link.getFile().getId());
         byte[] fileBytes = Files.readAllBytes(Paths.get(latestVersion.getStoragePath()));
