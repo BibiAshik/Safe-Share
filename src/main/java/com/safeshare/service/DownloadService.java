@@ -22,6 +22,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class DownloadService {
 
+    private static final String VERIFIED_SHARE_PREFIX = "verified_share:";
+
     private final ShareLinkRepository shareLinkRepository;
     private final RedisTemplate<String, Object> redisTemplate;
     private final PasswordEncoder passwordEncoder;
@@ -124,6 +126,24 @@ public class DownloadService {
         }
 
         return true;
+    }
+
+    public void markPasswordVerified(String token, HttpServletRequest request) {
+        request.getSession(true).setAttribute(VERIFIED_SHARE_PREFIX + token, true);
+    }
+
+    public void requirePasswordAccess(ShareLink link, String token, HttpServletRequest request) {
+        if (link.getPasswordHash() == null) {
+            return;
+        }
+
+        Object verified = request.getSession(false) != null
+                ? request.getSession(false).getAttribute(VERIFIED_SHARE_PREFIX + token)
+                : null;
+
+        if (!Boolean.TRUE.equals(verified)) {
+            throw new InvalidLinkPasswordException("Password required");
+        }
     }
 
     /**

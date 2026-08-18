@@ -5,7 +5,6 @@ import com.safeshare.entity.AccessStatus;
 import com.safeshare.entity.FileVersion;
 import com.safeshare.entity.ShareLink;
 import com.safeshare.service.*;
-import com.safeshare.util.BotUserAgentFilter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,7 +31,6 @@ public class PublicLinkController {
     private final WatermarkService watermarkService;
     private final DocumentPreviewService documentPreviewService;
     private final AccessLogService accessLogService;
-    private final BotUserAgentFilter botUserAgentFilter;
 
     @GetMapping("/{token}")
     @Operation(summary = "Validate a share link and return its status")
@@ -50,6 +48,7 @@ public class PublicLinkController {
             @Valid @RequestBody LinkPasswordRequest passwordRequest,
             HttpServletRequest request) {
         downloadService.verifyPassword(token, passwordRequest.getPassword(), request);
+        downloadService.markPasswordVerified(token, request);
 
         ShareLink link = downloadService.validateLink(token);
         return ResponseEntity.ok(Map.of(
@@ -66,6 +65,7 @@ public class PublicLinkController {
             @PathVariable String token,
             HttpServletRequest request) throws IOException {
         ShareLink link = downloadService.validateLink(token);
+        downloadService.requirePasswordAccess(link, token, request);
         FileVersion latestVersion = fileService.getLatestVersion(link.getFile().getId());
 
         String fileType = link.getFile().getFileType().toLowerCase();
@@ -118,18 +118,15 @@ public class PublicLinkController {
     public ResponseEntity<?> downloadFile(
             @PathVariable String token,
             HttpServletRequest request) throws IOException {
-        boolean isBot = botUserAgentFilter.isBot(request.getHeader("User-Agent"));
-
         // Re-validate link on every download attempt (never trust a stale page)
         ShareLink link = downloadService.validateLink(token);
+        downloadService.requirePasswordAccess(link, token, request);
 
-        if (!isBot) {
-            // Atomic increment of download count via Redis
-            downloadService.incrementDownloadCount(token);
+        // Atomic increment of download count via Redis
+        downloadService.incrementDownloadCount(token);
 
-            // Log the successful access
-            accessLogService.logAccess(link, request, AccessStatus.SUCCESS, "File downloaded");
-        }
+        // Log the successful access
+        accessLogService.logAccess(link, request, AccessStatus.SUCCESS, "File downloaded");
 
         FileVersion latestVersion = fileService.getLatestVersion(link.getFile().getId());
         byte[] fileBytes = Files.readAllBytes(Paths.get(latestVersion.getStoragePath()));
