@@ -156,11 +156,8 @@ public class DownloadService {
 
         String key = "download_count:" + token;
 
-        // Initialize Redis key if absent
-        Boolean exists = redisTemplate.hasKey(key);
-        if (exists == null || !exists) {
-            redisTemplate.opsForValue().set(key, String.valueOf(link.getCurrentDownloads()));
-        }
+        // Initialize Redis key if absent (Atomic operation prevents race condition)
+        redisTemplate.opsForValue().setIfAbsent(key, String.valueOf(link.getCurrentDownloads()));
 
         // Atomic increment
         Long count = redisTemplate.opsForValue().increment(key);
