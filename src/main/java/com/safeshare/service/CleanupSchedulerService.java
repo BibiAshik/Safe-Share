@@ -27,37 +27,74 @@ public class CleanupSchedulerService {
     private final FileRepository fileRepository;
 
     /**
-     * Runs daily at 2 AM. Finds files whose share links have been expired or revoked
-     * for more than 7 days, then deletes all versions from disk and DB.
+     * Runs daily at 2 AM.
+     *
+     * Step 1: Find share links that are expired or revoked for MORE than 7 days
+     *         and delete just those individual links. Other links on the same file are untouched.
+     *
+     * Step 2: After deleting old links, check each affected file.
+     *         If the file now has ZERO share links remaining, delete all its
+     *         physical file versions from disk and remove the file DB record.
+     *         If any links (active or recent) still exist, the file is kept safe.
      */
     @Scheduled(cron = "0 0 2 * * ?")
     @Transactional
     public void cleanupExpiredFiles() {
-        log.info("Starting scheduled cleanup of expired/revoked files");
+        log.info("Starting scheduled cleanup of expired/revoked share links");
 
         LocalDateTime cutoff = LocalDateTime.now().minusDays(7);
-        List<ShareLink> expiredLinks = shareLinkRepository.findExpiredOrRevokedBefore(cutoff);
 
-        Set<Long> fileIdsToDelete = new HashSet<>();
-        for (ShareLink link : expiredLinks) {
-            fileIdsToDelete.add(link.getFile().getId());
+        // Find all individual share links that are expired or revoked for 7+ days
+        List<ShareLink> oldLinks = shareLinkRepository.findExpiredOrRevokedBefore(cutoff);
+
+        if (oldLinks.isEmpty()) {
+            log.info("No expired/revoked links older than 7 days found. Cleanup skipped.");
+            return;
         }
 
-        for (Long fileId : fileIdsToDelete) {
+        // Collect the file IDs these old links belonged to (before we delete the links)
+        Set<Long> affectedFileIds = new HashSet<>();
+        for (ShareLink link : oldLinks) {
+            affectedFileIds.add(link.getFile().getId());
+        }
+
+        // Step 1: Delete each old share link individually
+        int deletedLinksCount = 0;
+        for (ShareLink link : oldLinks) {
+            log.info("Deleting old share link ID {} (token: {}) for file ID {}",
+                    link.getId(), link.getToken(), link.getFile().getId());
+            shareLinkRepository.delete(link);
+            deletedLinksCount++;
+        }
+        log.info("Step 1 complete: Deleted {} old share link(s)", deletedLinksCount);
+
+        // Step 2: For each affected file, check if ANY share links remain
+        // Only delete the file + all versions if ZERO links are left
+        int deletedFilesCount = 0;
+        for (Long fileId : affectedFileIds) {
+            long remainingLinks = shareLinkRepository.countAllLinksForFile(fileId);
+
+            if (remainingLinks > 0) {
+                log.info("File ID {} still has {} link(s) remaining — keeping file.", fileId, remainingLinks);
+                continue;
+            }
+
+            // Zero links remain — safe to delete the file and all its versions
             fileRepository.findById(fileId).ifPresent(file -> {
                 for (FileVersion version : file.getVersions()) {
                     try {
                         Files.deleteIfExists(Paths.get(version.getStoragePath()));
-                        log.info("Deleted file from disk: {}", version.getStoragePath());
+                        log.info("Deleted version from disk: {}", version.getStoragePath());
                     } catch (IOException e) {
-                        log.error("Failed to delete file: {}", version.getStoragePath(), e);
+                        log.error("Failed to delete version from disk: {}", version.getStoragePath(), e);
                     }
                 }
                 fileRepository.delete(file);
-                log.info("Deleted file record: {} (ID: {})", file.getOriginalFilename(), file.getId());
+                log.info("Deleted file record: '{}' (ID: {})", file.getOriginalFilename(), file.getId());
             });
+            deletedFilesCount++;
         }
 
-        log.info("Cleanup completed. Processed {} file(s)", fileIdsToDelete.size());
+        log.info("Cleanup complete. Links deleted: {}. Files deleted: {}.", deletedLinksCount, deletedFilesCount);
     }
 }
