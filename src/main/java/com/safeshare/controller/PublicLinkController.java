@@ -68,6 +68,13 @@ public class PublicLinkController {
             HttpServletRequest request) throws IOException {
         ShareLink link = downloadService.validateLink(token);
         downloadService.requirePasswordAccess(link, token, request);
+
+        // Log preview access for real humans only — skip social media preview bots
+        boolean isBot = botUserAgentFilter.isBot(request.getHeader("User-Agent"));
+        if (!isBot) {
+            accessLogService.logAccess(link, request, AccessStatus.SUCCESS, "File previewed");
+        }
+
         FileVersion latestVersion = fileService.getLatestVersion(link.getFile().getId());
 
         String fileType = link.getFile().getFileType().toLowerCase();
