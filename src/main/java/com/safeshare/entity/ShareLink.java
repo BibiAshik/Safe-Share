@@ -43,6 +43,9 @@ public class ShareLink {
     @Builder.Default
     private Boolean isActive = true;
 
+    @Column(name = "revoked_at")
+    private LocalDateTime revokedAt;
+
     @Column(name = "watermark_enabled", nullable = false)
     @Builder.Default
     private Boolean watermarkEnabled = false;
