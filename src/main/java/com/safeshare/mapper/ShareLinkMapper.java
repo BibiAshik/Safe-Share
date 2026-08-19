@@ -25,6 +25,7 @@ public class ShareLinkMapper {
                 .hasPassword(link.getPasswordHash() != null)
                 .qrCodeUrl("/api/links/" + link.getId() + "/qrcode")
                 .createdAt(link.getCreatedAt())
+                .revokedAt(link.getRevokedAt())
                 .build();
     }
 }
