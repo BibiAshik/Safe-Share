@@ -21,4 +21,5 @@ public class ShareLinkResponse {
     private Boolean hasPassword;
     private String qrCodeUrl;
     private LocalDateTime createdAt;
+    private LocalDateTime revokedAt;
 }
