@@ -104,9 +104,6 @@ public class ShareLinkService {
         link.setIsActive(false);
         link.setRevokedAt(LocalDateTime.now());
         shareLinkRepository.save(link);
-
-        // Invalidate any Redis cache for this link
-        redisTemplate.delete("link_valid:" + link.getToken());
     }
 
     public ShareLinkResponse getLinkById(Long linkId, User owner) {
