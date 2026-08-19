@@ -131,14 +131,12 @@ public class PublicLinkController {
         ShareLink link = downloadService.validateLink(token);
         downloadService.requirePasswordAccess(link, token, request);
 
-        boolean isBot = botUserAgentFilter.isBot(request.getHeader("User-Agent"));
-        if (!isBot) {
-            // Atomic increment of download count via Redis
-            downloadService.incrementDownloadCount(token);
-
-            // Log the successful access
-            accessLogService.logAccess(link, request, AccessStatus.SUCCESS, "File downloaded");
-        }
+        // Always count and log every download — no bot exemption here.
+        // Social media bots (Telegram, WhatsApp etc.) never call /download directly,
+        // so the bot check was unnecessary and created an exploit: anyone spoofing
+        // a bot User-Agent could bypass the max download limit entirely.
+        downloadService.incrementDownloadCount(token);
+        accessLogService.logAccess(link, request, AccessStatus.SUCCESS, "File downloaded");
 
         FileVersion latestVersion = fileService.getLatestVersion(link.getFile().getId());
         byte[] fileBytes = Files.readAllBytes(Paths.get(latestVersion.getStoragePath()));
